@@ -1,0 +1,8 @@
+cidr_block = "10.0.0.0/18"
+cidr_block_pvtsub1 = "10.0.0.0/22"
+cidr_block_pvtsub2 = "10.0.4.0/22"
+cidr_block_pubsub1 = "10.0.8.0/24"
+cidr_block_pubsub2 = "10.0.9.0/24"
+az-ap-south-1a = "ap-south-1a"
+az-ap-south-1b = "ap-south-1b"
+pvt-rt-table-cidr = "10.0.0.0/18"
