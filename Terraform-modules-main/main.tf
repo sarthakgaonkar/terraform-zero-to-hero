@@ -75,6 +75,25 @@ variable "pvt-rt-table-cidr" {
   description = "cidr block for pvt rt table"
 }
 
+# variable "function_name" {
+#   type        = string
+#   description = "Lambda function name"
+# }
+
+# variable "image_uri" {
+#   type        = string
+#   description = "ECR image URI"
+# }
+
+# variable "memory_size" {
+#   type        = number
+#   default     = 512
+# }
+
+# variable "timeout" {
+#   type        = number
+#   default     = 30
+# }
 
 module "my_vpc_1" {
   source = "./modules/aws-vpc"
@@ -87,4 +106,54 @@ module "my_vpc_1" {
   az-ap-south-1b = var.az-ap-south-1b
   pvt-rt-table-cidr = var.pvt-rt-table-cidr
 
+}
+
+variable "function_name" {}
+variable "image_uri" {}
+variable "memory_size" {
+  default = 512
+}
+variable "timeout" {
+  default = 30
+}
+
+module "lambda_function" {
+  source        = "./modules/aws-lambda"
+  function_name = var.function_name
+  image_uri     = var.image_uri
+  memory_size   = var.memory_size
+  timeout       = var.timeout
+}
+
+locals {
+  lambda_functions = {
+    lambda1 = {
+      function_name = "lambda-1"
+      image_uri     = "123456789012.dkr.ecr.ap-south-1.amazonaws.com/my-lambda:latest"
+      memory_size   = 512
+      timeout       = 30
+    }
+    lambda2 = {
+      function_name = "lambda-2"
+      image_uri     = "123456789012.dkr.ecr.ap-south-1.amazonaws.com/my-lambda:latest"
+      memory_size   = 1024
+      timeout       = 60
+    }
+    lambda3 = {
+      function_name = "lambda-3"
+      image_uri     = "123456789012.dkr.ecr.ap-south-1.amazonaws.com/my-lambda:latest"
+      memory_size   = 256
+      timeout       = 15
+    }
+  }
+}
+
+module "lambda_functions" {
+  source        = "./modules/aws-lambda-bulk"
+  project_name  = "my-project"
+  lambda_functions = local.lambda_functions
+}
+
+output "lambda_names" {
+  value = module.lambda_functions.lambda_names
 }

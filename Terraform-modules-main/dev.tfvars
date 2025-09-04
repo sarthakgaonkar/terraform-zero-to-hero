@@ -6,3 +6,7 @@ cidr_block_pubsub2 = "10.0.9.0/24"
 az-ap-south-1a = "ap-south-1a"
 az-ap-south-1b = "ap-south-1b"
 pvt-rt-table-cidr = "10.0.0.0/18"
+function_name = "my-dotnet-image-lambda"
+image_uri     = "712193137949.dkr.ecr.ap-south-1.amazonaws.com/my-dotnet-lambda:latest"
+memory_size   = 512
+timeout       = 30
